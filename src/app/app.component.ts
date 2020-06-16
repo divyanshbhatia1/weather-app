@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppSettings, AppType } from 'src/assets/AppSettings';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'weather-app';
+
+  isModalModeEnabled: boolean;
+
+  constructor(){
+    this.isModalModeEnabled = AppSettings.Mode == AppType.Modal;
+  }
 }

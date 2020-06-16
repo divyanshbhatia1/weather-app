@@ -1,7 +1,6 @@
-<div class="card m-2" (click)="openCityModal()" placement="bottom" ngbTooltip="Click to add city">
+<div class="card m-2" (click)="openCityModal()" placement="bottom" ngbTooltip="Click to edit city">
     <div class="card-body">
-        <h5 class="card-title">{{city}}</h5>
-        <p class="card-text text-center">{{city == undefined ? "No City Selected" : ""}}</p>
-        <button [hidden]="city == undefined" class="btn btn-primary">Edit</button>
+        <h5 class="card-title text-center">{{city == undefined ? "No City Selected" : city}}</h5>
+        <p class="card-text text-center">{{city == undefined ? "" : ""}}</p>
     </div>
 </div>

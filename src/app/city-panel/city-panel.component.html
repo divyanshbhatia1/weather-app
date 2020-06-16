@@ -1,0 +1,41 @@
+<div class="card m-2" placement="bottom">
+    <div class="card-body">
+        <img class="card-img-top" [src]="image" [hidden]="editable || city == undefined || image == undefined">
+        <h5 class="card-title text-center" [hidden]="editable">
+            {{city == undefined ? "No City Selected" : weather.name}}
+        </h5>
+        <div class="card-text" [hidden]="editable || city == undefined">
+            <p>
+                Time: {{getTime()}}
+            </p>
+            <p>
+                Temperature: {{getCurrentTemperature()}}
+            </p>
+            <p>
+                Min. Temperature: {{getMinimumTemperature()}}
+            </p>
+            <p>
+                Max. Temperature: {{getMaximumTemperature()}}
+            </p>
+        </div>
+
+        <div class="text-center">
+            <button [hidden]="editable" class="btn btn-primary"
+                (click)="editCity()">{{city == undefined ? "Add" : "Edit"}}</button>
+        </div>
+
+        <p [hidden]="isValid">
+            <ngb-alert type="danger" (close)="closeAlert()" [dismissible]="true" class="text-center">
+                <strong>Invalid city!</strong>.
+            </ngb-alert>
+        </p>
+
+        <input [hidden]="!editable" placeholder="Enter City" (key.enter)="fetch()" [formControl]="cityControl" class="form-control" />
+
+        <div class="mt-3 text-center">
+            <button [hidden]="!editable" (click)="fetch()" class="btn btn-primary mr-3">Fetch</button>
+
+            <button [hidden]="!editable" (click)="dismiss()" class="btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+</div>

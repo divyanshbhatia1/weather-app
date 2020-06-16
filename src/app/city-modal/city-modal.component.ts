@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormGroup } from '@angular/forms';
+import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl } from '@angular/forms';
+import { AppSettings } from 'src/assets/AppSettings';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-city-modal',
@@ -10,17 +12,40 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class CityModalComponent implements OnInit {
 
   city = new FormControl("");
+  isValid = true;
 
   constructor(
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
   }
 
   save(){
-    console.log(this.city.value)
-    this.activeModal.close();
+    this.getWeatherInformation(this.city.value).subscribe(
+      success => {
+        this.activeModal.close(
+          {
+            city: this.city.value,
+            weatherInfo: success
+          }
+        );
+      },
+      error => {
+        this.isValid = false
+      }
+    );
+    //this.activeModal.close(this.city.value);
+  }
+
+  getWeatherInformation(city: string){
+    let url = AppSettings.API_Path + "&q=" + city;
+    return this.http.get(url);
+  }
+
+  closeAlert(){
+    this.isValid = true;
   }
 
 }

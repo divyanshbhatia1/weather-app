@@ -5,9 +5,15 @@
     </button>
 </div>
 <div class="modal-body">
-    <form>
-        <input id="city" ngbAutofocus [formControl]="city" class="form-control" placeholder="Enter City">
-    </form>
+    <p [hidden]="isValid">
+        <ngb-alert type="danger" (close)="closeAlert()" [dismissible]="true" class="text-center">
+            <strong>Invalid city!</strong>.
+        </ngb-alert>
+    </p>
+    <div>
+        <input id="city" autocomplete="off" ngbAutofocus [formControl]="city" class="form-control"
+            placeholder="Enter City">
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>

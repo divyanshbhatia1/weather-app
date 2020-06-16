@@ -19,8 +19,16 @@ export class WeatherPanelComponent implements OnInit {
   }
 
   openCityModal(): void {
-    this.modalService.open(CityModalComponent)
-    .close(x => console.log(x))
+    let modal = this.modalService.open(CityModalComponent);
+    
+    modal.result.then(x => {
+      this.city = x["weatherInfo"].name;
+      debugger
+      console.log(x["weatherInfo"])
+    },
+    () => {
+
+    });
   }
 
 }
