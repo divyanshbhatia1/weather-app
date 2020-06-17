@@ -1,10 +1,9 @@
 <div class="card m-2" placement="bottom">
-    <div class="card-body">
-        <img class="card-img-top" [src]="image" [hidden]="editable || city == undefined || image == undefined">
+    <div class="card-body" [style.background-image]="'url(' + image + ')'">
         <h5 class="card-title text-center" [hidden]="editable">
-            {{city == undefined ? "No City Selected" : weather.name}}
+            {{weather == undefined ? "No City Selected" : weather.name}}
         </h5>
-        <div class="card-text" [hidden]="editable || city == undefined">
+        <div class="card-text" [hidden]="editable || weather == undefined">
             <p>
                 Time: {{getTime()}}
             </p>
@@ -21,7 +20,7 @@
 
         <div class="text-center">
             <button [hidden]="editable" class="btn btn-primary"
-                (click)="editCity()">{{city == undefined ? "Add" : "Edit"}}</button>
+                (click)="editCity()">{{weather == undefined ? "Add" : "Edit"}}</button>
         </div>
 
         <p [hidden]="isValid">

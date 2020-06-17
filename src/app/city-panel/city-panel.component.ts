@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AppSettings } from 'src/assets/AppSettings';
 import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'city-panel',
@@ -10,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CityPanelComponent implements OnInit {
 
-  city: string;
   editable: boolean = false;
   cityControl = new FormControl("");
   isValid = true;
@@ -34,10 +34,18 @@ export class CityPanelComponent implements OnInit {
   }
 
   fetch(){
-    this.getWeatherInformation(this.cityControl.value).subscribe(
+    
+    let url = AppSettings.API_Path + "&q=" + this.cityControl.value;
+    this.http.get(url)
+    .pipe(
+      finalize(() =>
+        setTimeout(() => {
+          this.fetch();
+        }, 3000)
+      )
+    )
+    .subscribe(
       success => {
-        this.city = success["name"];
-        console.log(success)
         this.editable = false;
         this.weather = success
         this.image = this.getImage(this.weather.weather[0].main);
@@ -49,13 +57,7 @@ export class CityPanelComponent implements OnInit {
     );
   }
 
-  getWeatherInformation(city: string){
-    let url = AppSettings.API_Path + "&q=" + city;
-    return this.http.get(url);
-  }
-
   getImage(weather: string){
-    console.log(weather);
     if(weather == "Clear"){
       return "/assets/images/clear.jpg"
     }
